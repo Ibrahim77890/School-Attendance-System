@@ -1,0 +1,54 @@
+ <!-- Section 2: Add Session -->
+        <div class="section" id="add-session-section">
+            <h2 class="section-header">Add Session</h2>
+            <form class="new-class-form" id="new-session-form" method="POST" action="{{ route('login') }}">
+                @csrf
+                <div class="form-group">
+                    <label>Select Class:</label>
+                    <select name="class_id" required>
+                        <option value="">-- Select Class --</option>
+                        <!-- Populate with classes from the database -->
+                        @foreach($classes as $class)
+                            <option value="{{ $class->id }}">{{ $class->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Date of Session -->
+                <div class="form-group">
+                    <label for="session-date">Session Date:</label>
+                    <input type="date" id="session-date" name="session_date" required>
+                </div>
+
+                <button type="submit" class="save-btn">Add Session</button>
+            </form>
+        </div>
+
+        <!-- Section 3: Attendance Sheet -->
+        <div class="section" id="attendance-sheet-section">
+            <h2 class="section-header">Attendance Sheet</h2>
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <table class="students-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Students from the selected class will populate here -->
+                        @foreach($students as $student)
+                            <tr>
+                                <td>{{ $student->fullname }}</td>
+                                <td>
+                                    <button type="button" class="attendance-btn present" data-student-id="{{ $student->id }}">Present</button>
+                                    <button type="button" class="attendance-btn absent" data-student-id="{{ $student->id }}">Absent</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <button type="submit" class="save-btn">Save Attendance</button>
+            </form>
+        </div>
